@@ -9,9 +9,9 @@ class Triangle():
         self.length3 = length3
 
     def __lt__(self, other):
-        return self.countSquare() < other.countSquare()
+        return self.calculate_area() < other.calculate_area()
 
-    def countSquare(self):
+    def calculate_area(self):
         p = (self.length1 + self.length2 + self.length3) / 2
         return math.sqrt(p * (p - self.length1) * (p - self.length2) * (p - self.length3))
 
@@ -19,12 +19,13 @@ class Triangle():
 triangles = []
 
 
-def sortTriangles():
+def input_triangles():
     global triangles
+
     props = str(input('Please put in triangle properties: '))
     props_list = props.split(',')
 
-    if (len(props_list) != 4):
+    if len(props_list) != 4:
         print('Triangle properties %s are not correct.' % props)
         exit()
 
@@ -37,13 +38,13 @@ def sortTriangles():
         )
     )
 
-    continueCommand = input('Do you want to add a new triangle? ')
-    if (continueCommand.strip().lower() == 'y' or continueCommand.strip().lower() == 'yes'):
-        sortTriangles()
+    continue_command = input('Do you want to add a new triangle? ')
+    if (continue_command.strip().lower() == 'y' or continue_command.strip().lower() == 'yes'):
+        input_triangles()
     else:
         triangles.sort(reverse = True)
         for ind in range(0, len(triangles)):
-            print('%s. [%s]: %s cm' % (ind + 1, triangles[ind].name, round(triangles[ind].countSquare())))
+            print('%s. [%s]: %s cm' % (ind + 1, triangles[ind].name, round(triangles[ind].calculate_area())))
 
 if __name__ == '__main__':
-    sortTriangles()
+    input_triangles()
