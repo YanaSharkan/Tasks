@@ -1,0 +1,7 @@
+How to run
+
+Search string in file:
+python task4_file_parser.py test.txt "Lorem"
+
+Replace string in file:
+python task4_file_parser.py test.txt "Lorem" "TEST1"
