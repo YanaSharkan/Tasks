@@ -1,7 +1,7 @@
 How to run
 
 Search string in file:
-python task4_file_parser.py test.txt "Lorem"
+python task4_file_parser.py test.txt "Lorem ipsum"
 
 Replace string in file:
-python task4_file_parser.py test.txt "Lorem" "TEST1"
+python task4_file_parser.py test.txt "Lorem ipsum" "<New string>"
