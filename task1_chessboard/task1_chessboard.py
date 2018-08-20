@@ -30,16 +30,16 @@ class ChessBoard:
     def print_board(self):
         print(self.create_board())
 
-
-def validate_params(args):
-    params_validator.validate_lst(args, 3)
-    params_validator.validate_int_input(args[1])
-    params_validator.validate_str(args[2])
+    @staticmethod
+    def validate(args):
+        params_validator.validate_lst(args, 3)
+        params_validator.validate_int_input(args[1])
+        params_validator.validate_str(args[2])
 
 
 def main():
     try:
-        validate_params(sys.argv)
+        ChessBoard.validate(sys.argv)
         size = int(sys.argv[1])  # number of cells in one row
         symbol = sys.argv[2]  # symbol for filling black cells
         chess = ChessBoard(size, symbol)
