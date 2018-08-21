@@ -7,12 +7,13 @@ sys.path.append(path.join(tasks_path, 'validator'))
 import params_validator
 from params_validation_error import ParamsValidationError
 
+
 class Ticket(ABC):
     def __init__(self, start_number, end_number):
         self.start_number = start_number
         self.end_number = end_number
 
-    def get_lucky(self):
+    def get_lucky(self):  # Collects lucky tickets between start number and end number
         res = []
 
         for i in range(self.start_number, self.end_number):
@@ -27,7 +28,7 @@ class Ticket(ABC):
         params_validator.validate_int_input(args[2])
 
     @abstractmethod
-    def is_lucky(self, ticket_number):
+    def is_lucky(self, ticket_number):  # Method implementation should check if certain method is lucky
         pass
 
 
@@ -36,7 +37,7 @@ class MoscowTicket(Ticket):
     def __init__(self, start_number, end_number):
         super().__init__(start_number, end_number)
 
-    def is_lucky(self, ticket_number):
+    def is_lucky(self, ticket_number):  # Abstract method implementation from Ticket
         ticket_str = str(ticket_number)
         res = False
 
@@ -52,7 +53,7 @@ class PiterTicket(Ticket):
     def __init__(self, start_number, end_number):
         super().__init__(start_number, end_number)
 
-    def is_lucky(self, ticket_number):
+    def is_lucky(self, ticket_number):  # Abstract method implementation from Ticket
         ticket_str = str(ticket_number)
         even_sum = 0
         odd_sum = 0
@@ -71,7 +72,7 @@ def read_file(file_path):
     return file_content.read()
 
 
-def ticket_factory(calc_type, start, end):
+def ticket_factory(calc_type, start, end):  # Compose Ticket implementation by params
     res = None
     if calc_type == 'Piter':
         res = PiterTicket(start, end)
