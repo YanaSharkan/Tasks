@@ -2,10 +2,11 @@ import sys
 from abc import ABC, abstractmethod
 from os import path
 
-tasks_path = path.dirname(path.dirname(path.abspath(__file__)))
-sys.path.append(path.join(tasks_path, 'validator'))
 import params_validator
 from params_validation_error import ParamsValidationError
+
+ALG_PITER = 'Piter'
+ALG_MOSCOW = 'Moscow'
 
 
 class Ticket(ABC):
@@ -14,18 +15,7 @@ class Ticket(ABC):
         self.end_number = end_number
 
     def get_lucky(self):  # Collects lucky tickets between start number and end number
-        res = []
-
-        for i in range(self.start_number, self.end_number):
-            if self.is_lucky(i):
-                res.append(i)
-
-        return res
-
-    @staticmethod
-    def validate(args):
-        params_validator.validate_int_input(args[1])
-        params_validator.validate_int_input(args[2])
+        return [num for num in range(self.start_number, self.end_number) if self.is_lucky(num)]
 
     @abstractmethod
     def is_lucky(self, ticket_number):  # Method implementation should check if certain method is lucky
@@ -33,9 +23,6 @@ class Ticket(ABC):
 
 
 class MoscowTicket(Ticket):
-
-    def __init__(self, start_number, end_number):
-        super().__init__(start_number, end_number)
 
     def is_lucky(self, ticket_number):  # Abstract method implementation from Ticket
         ticket_str = str(ticket_number)
@@ -50,15 +37,12 @@ class MoscowTicket(Ticket):
 
 class PiterTicket(Ticket):
 
-    def __init__(self, start_number, end_number):
-        super().__init__(start_number, end_number)
-
     def is_lucky(self, ticket_number):  # Abstract method implementation from Ticket
         ticket_str = str(ticket_number)
         even_sum = 0
         odd_sum = 0
 
-        for i in range(0, len(ticket_str)):
+        for i in range(len(ticket_str)):
             if i % 2 == 0:
                 even_sum = even_sum + int(ticket_str[i])
             else:
@@ -68,15 +52,21 @@ class PiterTicket(Ticket):
 
 
 def read_file(file_path):
-    file_content = open(file_path, 'r')
-    return file_content.read()
+    with open(file_path, 'r') as context:
+        return context.read()
 
 
-def ticket_factory(calc_type, start, end):  # Compose Ticket implementation by params
+def ticket_factory(calc_type, limitations):  # Compose Ticket implementation by params
     res = None
-    if calc_type == 'Piter':
+    params_validator.validate_int_input(limitations[0])
+    params_validator.validate_int_input(limitations[1])
+
+    start = int(limitations[0])
+    end = int(limitations[1])
+
+    if calc_type == ALG_PITER:
         res = PiterTicket(start, end)
-    elif calc_type == 'Moscow':
+    elif calc_type == ALG_MOSCOW:
         res = MoscowTicket(start, end)
     return res
 
@@ -84,11 +74,8 @@ def ticket_factory(calc_type, start, end):  # Compose Ticket implementation by p
 def main():
     args = sys.argv
     try:
-        Ticket.validate(args)
-        start = int(args[1])
-        end = int(args[2])
         ticket_method = read_file(args[3])
-        tickets_seq = ticket_factory(ticket_method.strip(), start, end)
+        tickets_seq = ticket_factory(ticket_method.strip(), args[1:3])
         lucky_tickets = tickets_seq.get_lucky()
         print(lucky_tickets)
     except ParamsValidationError as err:
