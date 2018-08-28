@@ -40,16 +40,16 @@ class TestTask3Triangles(unittest.TestCase):
             task3_triangles.input_triangle([])
         self.assertEqual('Sum of two sides of triangle must be greater then the biggest side', str(thrown.exception))
 
-    def test_check_continue_success_short(self):
-        check_continue_res = task3_triangles.check_continue('y')
-        self.assertEqual(check_continue_res, True)
+    def test_is_continue_success_short(self):
+        is_continue_res = task3_triangles.is_continue('y')
+        self.assertEqual(is_continue_res, True)
 
-    def test_check_continue_success_full(self):
-        check_continue_res = task3_triangles.check_continue('yes')
-        self.assertEqual(check_continue_res, True)
+    def test_is_continue_success_full(self):
+        is_continue_res = task3_triangles.is_continue('yes')
+        self.assertEqual(is_continue_res, True)
 
-    def test_check_continue_error(self):
-        self.assertEqual(task3_triangles.check_continue('n'), False)
+    def test_is_continue_error(self):
+        self.assertEqual(task3_triangles.is_continue('n'), False)
 
     @patch('task3_triangles.get_input', side_effect=iter([','.join(data_set_success), ','.join(data_set_success1)]))
     def test_get_area(self, input_mock):
