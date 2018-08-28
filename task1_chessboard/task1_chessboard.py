@@ -1,8 +1,4 @@
 import sys
-from os import path
-
-tasks_path = path.dirname(path.dirname(path.abspath(__file__)))
-sys.path.append(path.join(tasks_path, 'validator'))
 import params_validator
 from params_validation_error import ParamsValidationError
 
@@ -13,7 +9,7 @@ class ChessBoard:
 
     """
 
-    def __init__(self, size, symbol):
+    def __init__(self, size, symbol, *args, **kwargs):
         self.size = size
         self.symbol = symbol
 
@@ -27,9 +23,6 @@ class ChessBoard:
             matrix[i] = ' '.join([self.get_cell(i - j) for j in sizing])
         return '\n'.join(matrix)
 
-    def print_board(self):
-        print(self.create_board())
-
     @staticmethod
     def validate(args):
         params_validator.validate_lst(args, 3)
@@ -37,13 +30,17 @@ class ChessBoard:
         params_validator.validate_str(args[2])
 
 
+def build_chessboard(args):
+    ChessBoard.validate(args)
+    size = int(args[1])  # number of cells in one row
+    symbol = args[2]  # symbol for filling black cells
+    chess = ChessBoard(size, symbol)
+    return chess.create_board()
+
+
 def main():
     try:
-        ChessBoard.validate(sys.argv)
-        size = int(sys.argv[1])  # number of cells in one row
-        symbol = sys.argv[2]  # symbol for filling black cells
-        chess = ChessBoard(size, symbol)
-        chess.print_board()
+        print(build_chessboard(sys.argv))
     except ParamsValidationError as err:
         print(err)
 

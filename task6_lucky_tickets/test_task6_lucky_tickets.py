@@ -22,9 +22,9 @@ class TestLuckyTickets(unittest.TestCase):
         self.assertEquals(ticket_inst1.end_number, int(self.ticket_args_success[1]))
 
     def test_ticket_factory_error(self):
-        with self.assertRaises(ParamsValidationError) as context:
+        with self.assertRaises(ParamsValidationError) as exception_context:
             task6_lucky_tickets.ticket_factory(task6_lucky_tickets.ALG_MOSCOW, self.ticket_args_error)
-        self.assertEqual('Argument must be an int greater then 0', str(context.exception))
+        self.assertEqual('Argument must be an int greater then 0', str(exception_context.exception))
 
     def test_is_lucky_moscow(self):
         ticket_inst1 = task6_lucky_tickets.MoscowTicket(self.ticket_args_success[0], self.ticket_args_success[1])

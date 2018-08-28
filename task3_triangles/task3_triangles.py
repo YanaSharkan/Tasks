@@ -38,8 +38,7 @@ def get_input():
     return str(input('Please put in triangle properties (name, length1, length2, length3): '))
 
 
-def input_triangle(triangles):
-    props = get_input()
+def input_triangle(triangles, props):
     props_list = props.split(',')
 
     Triangle.validate(props_list)  # Validates properties of triangle
@@ -67,11 +66,11 @@ if __name__ == '__main__':
     res_triangles = []  # List of triangles for sorting
     while flag_continue:
         try:
-            input_triangle(res_triangles)  # Adding each entered triangle into a common list
+            input_triangle(res_triangles, get_input())  # Adding each entered triangle into a common list
         except ParamsValidationError as err:
             print(err)
         continue_command = input('Do you want to add a new triangle? ')
-        if not is_continue(continue_command):
+        flag_continue = is_continue(continue_command)
+        if not flag_continue:
             print('============= Triangles list: =============')
             print_sorted_triangles(res_triangles)
-            flag_continue = is_continue(continue_command)

@@ -1,7 +1,5 @@
 import sys
 from abc import ABC, abstractmethod
-from os import path
-
 import params_validator
 from params_validation_error import ParamsValidationError
 
@@ -18,7 +16,7 @@ class Ticket(ABC):
         return [num for num in range(self.start_number, self.end_number) if self.is_lucky(num)]
 
     @abstractmethod
-    def is_lucky(self, ticket_number):  # Method implementation should check if certain method is lucky
+    def is_lucky(self, ticket_number):  # Method implementation must check if certain method is lucky
         pass
 
 
@@ -52,8 +50,8 @@ class PiterTicket(Ticket):
 
 
 def read_file(file_path):
-    with open(file_path, 'r') as context:
-        return context.read()
+    with open(file_path, 'r') as file:
+        return file.read()
 
 
 def ticket_factory(calc_type, limitations):  # Compose Ticket implementation by params

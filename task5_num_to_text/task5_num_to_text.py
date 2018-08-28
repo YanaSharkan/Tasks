@@ -1,23 +1,9 @@
 import sys
+import numbers
 
 
 class NumberConverter:
-    ones = [
-        '', 'One', 'Two', 'Three', 'Four', 'Five',
-        'Six', 'Seven', 'Eight', 'Nine',
-        ]
-
-    teens = [
-        'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen',
-        'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen',
-        ]
-
-    ties = [
-        '', '', 'Twenty', 'Thirty', 'Forty',
-        'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety',
-        ]
-
-    def convert(self, num, skip_zero = False):
+    def convert(self, num, skip_zero=False):
         res = ''
         if num < 10:
             res = self.__convert_ones(num, skip_zero)
@@ -30,32 +16,32 @@ class NumberConverter:
         elif num < 1000000:
             res = self.__convert_thousands(num)
         return res
-    
+
     def __convert_ones(self, num, skip_zero):
-        res = self.ones[num]
+        res = numbers.ones[num]
         if res == '' and skip_zero == False:
             res = 'Zero'
         return res
 
     def __convert_teens(self, num):
-        return self.teens[num - 10]
+        return numbers.teens[num - 10]
 
     def __convert_tens(self, num):
-        res = self.ties[num // 10]
+        res = numbers.ties[num // 10]
         modulus = num % 10
         if modulus != 0:
             res = (res + ' ' + self.convert(modulus, True)).strip()
         return res
 
     def __convert_hundreds(self, num):
-        res = self.ones[num // 100] + ' Hundred'
+        res = numbers.ones[num // 100] + ' HUNDRED'
         modulus = num % 100
         if modulus != 0:
             res = (res + ' ' + self.convert(modulus, True)).strip()
         return res
 
     def __convert_thousands(self, num):
-        res = self.convert(num // 1000) + ' Thousand'
+        res = self.convert(num // 1000) + ' THOUSAND'
         modulus = num % 1000
         if modulus != 0:
             res = (res + ' ' + self.convert(modulus, True)).strip()

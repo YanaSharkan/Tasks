@@ -6,35 +6,37 @@ from params_validation_error import ParamsValidationError
 
 class TestTask2Envelope(unittest.TestCase):
 
-    @patch('task2_envelope.get_input', return_value='1,2')
-    def test_define_envelope_success(self, input_mock):
-        envelope_model = task2_envelope.define_envelope()
+    params_success = '1,2'
+    params_success1 = '2,3'
+    params_error_args = '1'
+    params_error_num1 = 'b,1'
+    params_error_num2 = '1,a'
+
+    def test_define_envelope_success(self):
+        envelope_model = task2_envelope.define_envelope(self.params_success)
         self.assertEqual(envelope_model.height, 2)
         self.assertEqual(envelope_model.width, 1)
 
-    @patch('task2_envelope.get_input', return_value='1')
-    def test_define_envelope_error_args(self, input_mock):
-        with self.assertRaises(ParamsValidationError) as thrown:
-            task2_envelope.define_envelope()
-        self.assertEquals('Not enough arguments specified', str(thrown.exception))
+    def test_define_envelope_error_args(self):
+        with self.assertRaises(ParamsValidationError) as exception_context:
+            task2_envelope.define_envelope(self.params_error_args)
+        self.assertEqual('Not enough arguments specified', str(exception_context.exception))
 
-    @patch('task2_envelope.get_input', return_value='b,1')
-    def test_define_envelope_error_size1(self, input_mock):
-        with self.assertRaises(ParamsValidationError) as thrown:
-            task2_envelope.define_envelope()
-        self.assertEquals('Argument must be an int greater then 0', str(thrown.exception))
+    def test_define_envelope_error_size1(self):
+        with self.assertRaises(ParamsValidationError) as exception_context:
+            task2_envelope.define_envelope(self.params_error_num1)
+        self.assertEqual('Argument must be an int greater then 0', str(exception_context.exception))
 
-    @patch('task2_envelope.get_input', return_value='1,a')
-    def test_define_envelope_error_size2(self, input_mock):
-        with self.assertRaises(ParamsValidationError) as thrown:
-            task2_envelope.define_envelope()
-        self.assertEquals('Argument must be an int greater then 0', str(thrown.exception))
+    def test_define_envelope_error_size2(self):
+        with self.assertRaises(ParamsValidationError) as exception_context:
+            task2_envelope.define_envelope(self.params_error_num2)
+        self.assertEqual('Argument must be an int greater then 0', str(exception_context.exception))
 
-    @patch('task2_envelope.get_input', side_effect=iter(['1,2', '2,3']))
-    def test_compare_envelopes(self, input_mock1):
-        envelope_model1 = task2_envelope.define_envelope()
-        envelope_model2 = task2_envelope.define_envelope()
+    def test_compare_envelopes(self):
+        envelope_model1 = task2_envelope.define_envelope(self.params_success)
+        envelope_model2 = task2_envelope.define_envelope(self.params_success1)
         self.assertTrue(envelope_model2.compare_envelopes(envelope_model1))
+
 
 if __name__ == '__main__':
     unittest.main()

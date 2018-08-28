@@ -1,4 +1,3 @@
-import sys
 import params_validator
 from params_validation_error import ParamsValidationError
 
@@ -28,8 +27,7 @@ def get_input():
     return str(input('Input envelope params (width, height): '))
 
 
-def define_envelope():
-    dimensions_str = get_input()
+def define_envelope(dimensions_str):
     dimensions_arr = dimensions_str.split(',')
     Envelope.validate(dimensions_arr)
     return Envelope(dimensions_arr[0], dimensions_arr[1])
@@ -37,8 +35,8 @@ def define_envelope():
 
 def compare_envelopes():
     try:
-        first_envelope = define_envelope()
-        second_envelope = define_envelope()
+        first_envelope = define_envelope(get_input())
+        second_envelope = define_envelope(get_input())
 
         if first_envelope.compare_envelopes(second_envelope):
             print('You can put second envelope into first')
