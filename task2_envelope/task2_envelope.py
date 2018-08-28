@@ -25,7 +25,7 @@ class Envelope:
 
 
 def get_input():
-    return str(input('Input envelope params:'))
+    return str(input('Input envelope params (width, height): '))
 
 
 def define_envelope():
@@ -50,14 +50,13 @@ def compare_envelopes():
         print(err)
 
 
-def check_continue(continue_cmd):
-    return continue_cmd.lower() == CONTINUE_CONFIRM_SHORT \
-    or continue_cmd.lower() == CONTINUE_CONFIRM_FULL
+def is_continue(continue_cmd):
+    return continue_cmd.lower() in (CONTINUE_CONFIRM_SHORT, CONTINUE_CONFIRM_FULL)
 
 
 if __name__ == '__main__':
-    while True:
+    flag_continue = True
+    while flag_continue:
         compare_envelopes()
         continue_command = input('Do you want to continue? yes / no: ')
-        if not check_continue(continue_command):
-            break
+        flag_continue = is_continue(continue_command)

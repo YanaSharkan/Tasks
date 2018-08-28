@@ -30,7 +30,7 @@ class Triangle:
         params_validator.validate_length_of_side_triangle(props_list[1:4])
 
 
-def check_continue(continue_cmd):
+def is_continue(continue_cmd):
     return continue_cmd.strip().lower() in (CONTINUE_CONFIRM_SHORT, CONTINUE_CONFIRM_FULL)
 
 
@@ -62,16 +62,16 @@ def print_sorted_triangles(triangles_list):  # Sorts triangles in list and print
         print_triangle_line(triangles_list[ind], ind + 1)
 
 
-
 if __name__ == '__main__':
+    flag_continue = True
     res_triangles = []  # List of triangles for sorting
-    while True:
+    while flag_continue:
         try:
-            input_triangle(res_triangles)  # Adding each entered triangle into common list
+            input_triangle(res_triangles)  # Adding each entered triangle into a common list
         except ParamsValidationError as err:
             print(err)
         continue_command = input('Do you want to add a new triangle? ')
-        if not check_continue(continue_command):
+        if not is_continue(continue_command):
             print('============= Triangles list: =============')
             print_sorted_triangles(res_triangles)
-            break
+            flag_continue = is_continue(continue_command)
