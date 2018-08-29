@@ -63,7 +63,7 @@ def print_sorted_triangles(triangles_list):  # Sorts triangles in list and print
 
 if __name__ == '__main__':
     flag_continue = True
-    res_triangles = []  # List of triangles for sorting
+    res_triangles = []
     while flag_continue:
         try:
             input_triangle(res_triangles, get_input())  # Adding each entered triangle into a common list

@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 import task6_lucky_tickets
 from params_validation_error import ParamsValidationError
 

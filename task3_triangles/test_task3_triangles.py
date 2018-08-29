@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 import task3_triangles
 from params_validation_error import ParamsValidationError
 
